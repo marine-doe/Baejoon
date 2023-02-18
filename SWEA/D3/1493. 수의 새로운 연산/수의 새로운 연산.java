@@ -6,7 +6,7 @@ public class Solution {
 	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 	public static void main(String[] args) throws Exception {
-		int n = 300;
+		int n = 267;
 		int[][] newCal = new int[n + 1][n + 1];
 		int counti = 1;
 		int countj = 1;
