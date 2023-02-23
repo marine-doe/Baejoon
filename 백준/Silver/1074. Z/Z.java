@@ -1,23 +1,30 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	static int n, r, c, N, start, end;
 
-		int n = sc.nextInt(); // 3
-		int r = sc.nextInt(); // 7
-		int c = sc.nextInt(); // 7
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		r = Integer.parseInt(st.nextToken());
+		c = Integer.parseInt(st.nextToken());
 
-		int N = (int) Math.pow(2, n); // 8
-		int start = 0; 
-		int end = N * N; // 64
+		N = (int) Math.pow(2, n); // 8
+		start = 0;
+		end = N * N; // 64
 
-		int result = findNum(n, r, c, N, start, end);
-		
+		int result = findNum();
+
 		System.out.println(result);
 	}
 
-	private static int findNum(int n, int r, int c, int N, int start, int end) {
+	private static int findNum() {
 		N /= 2;
 		boolean rowcheck;
 		boolean colcheck;
@@ -48,13 +55,13 @@ public class Main {
 					c -= N;
 					start = (int) (end - Math.pow(4, n - 1));
 					n--;
-					return findNum(n, r, c, N, start, end);
+					return findNum();
 				} else { // 3구역
 					r -= N;
 					end = (int) (end - Math.pow(4, n - 1));
 					start = (int) (end - Math.pow(4, n - 1));
 					n--;
-					return findNum(n, r, c, N, start, end);
+					return findNum();
 				}
 			} else {
 				if (colcheck) { // 2구역
@@ -62,11 +69,11 @@ public class Main {
 					end = (int) (end - 2 * Math.pow(4, n - 1));
 					start = (int) (end - Math.pow(4, n - 1));
 					n--;
-					return findNum(n, r, c, N, start, end);
+					return findNum();
 				} else { // 1구역
 					end = (int) (end - 3 * Math.pow(4, n - 1));
 					n--;
-					return findNum(n, r, c, N, start, end);
+					return findNum();
 				}
 			}
 		}
