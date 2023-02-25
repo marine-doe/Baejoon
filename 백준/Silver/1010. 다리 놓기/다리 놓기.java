@@ -15,12 +15,8 @@ public class Main {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			double n = Integer.parseInt(st.nextToken());
 			double m = Integer.parseInt(st.nextToken());
-			if(n == m) {
-				bw.write(1 + "\n");
-				continue;
-			}
-			double result = 1;
 
+			double result = 1;
 			for (int i = 0; i < n; i++) {
 				result *= m - i;
 				result /= 1 + i;
