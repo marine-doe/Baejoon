@@ -1,30 +1,26 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
 
 public class Main {
 	static int n, max = 0;
-	static Queue<Integer> q = new LinkedList<>();
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		n = sc.nextInt();
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		n = Integer.parseInt(br.readLine());
 		int[][] map = new int[n][n];
 		for (int i = 0; i < n; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < n; j++) {
-				map[i][j] = sc.nextInt();
+				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 		BF(map, 0);
 		System.out.println(max);
-//		right(map);
-//		down(map);
-//		down(map);
-//		right(map);
-//		right(map);
-//		for (int i = 0; i < n; i++) {
-//			System.out.println(Arrays.toString(map[i]));
-//		}
 	}
 
 	private static void BF(int[][] map, int idx) {
@@ -37,28 +33,12 @@ public class Main {
 		if (idx == 5) {
 			checkMax(board);
 		} else {
-			BF(up(board), idx + 1);
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					board[i][j] = map[i][j];
-				}
-			}
-			BF(left(board), idx + 1);
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					board[i][j] = map[i][j];
-				}
-			}
-			BF(right(board), idx + 1);
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					board[i][j] = map[i][j];
-				}
-			}
-			BF(down(board), idx + 1);
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					board[i][j] = map[i][j];
+			for (int k = 0; k < 4; k++) {
+				BF(order(board, k), idx + 1);
+				for (int i = 0; i < n; i++) {
+					for (int j = 0; j < n; j++) {
+						board[i][j] = map[i][j];
+					}
 				}
 			}
 		}
@@ -69,6 +49,20 @@ public class Main {
 			for (int j = 0; j < n; j++) {
 				max = Math.max(max, map[i][j]);
 			}
+		}
+	}
+
+	private static int[][] order(int[][] map, int idx) {
+		if (idx == 0) {
+			return up(map);
+		}
+		if (idx == 1) {
+			return left(map);
+		}
+		if (idx == 2) {
+			return right(map);
+		} else {
+			return down(map);
 		}
 	}
 
