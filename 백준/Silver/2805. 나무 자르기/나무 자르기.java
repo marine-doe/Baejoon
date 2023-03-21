@@ -45,26 +45,4 @@ public class Main {
 		bw.close();
 		br.close();
 	}
-
-//	private static int cut(int h) {
-//		if (h < 0 || sum >= m) { // 조건을 충족하면 그만 둬라.
-//			return h + 1;
-//		}
-//		if (!q.isEmpty() && q.peek() <= h) {
-//			sum += cnt;
-//			return cut(h - 1);
-//		} else {
-//			if (q.isEmpty()) {
-//				sum += cnt;
-//				return cut(h - 1);
-//			} else {
-//				while (!q.isEmpty() && q.peek() > h) {
-//					q.poll();
-//					cnt++;
-//				}
-//				sum += cnt;
-//				return cut(h - 1);
-//			}
-//		}
-//	}
 }
