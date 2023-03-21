@@ -22,7 +22,7 @@ public class Main {
 		}
 
 		int h = q.peek(), cnt = 0;
-		long sum = 0L;
+		int sum = 0;
 		while (!q.isEmpty() && sum < m && h > 0) {
 			h--;
 			if (q.peek() <= h) {
