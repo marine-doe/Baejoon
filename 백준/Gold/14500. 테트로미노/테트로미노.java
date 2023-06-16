@@ -1,75 +1,81 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int n, m, result = 0;
-	static int[][] map;
-	static boolean[][] visited;
-	static List<Integer> list;
+    static int result = Integer.MIN_VALUE;
+    static boolean[][] visited;
+    static int[] row = {1, 0, 0, -1};
+    static int[] col = {0, 1, -1, 0};
+    static int[][] arr;
+    static int n, m;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		n = sc.nextInt();
-		m = sc.nextInt();
-		map = new int[n][m];
-		visited = new boolean[n][m];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				map[i][j] = sc.nextInt();
-			}
-		}
-		list = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				dfs(i, j, 0);
-				crossCheck(i, j);
-			}
-		}
-		System.out.println(result);
-	}
+    public static void main(String[] args) throws Exception{
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-	private static void crossCheck(int x, int y) {
-		int sum = 0;
-		if (x > 0 && y > 0 && y < m - 1) {
-			sum = map[x][y] + map[x - 1][y] + map[x][y - 1] + map[x][y + 1];
-			result = Math.max(result, sum);
-		}
-		if (x < n - 1 && y > 0 && y < m - 1) {
-			sum = map[x][y] + map[x + 1][y] + map[x][y - 1] + map[x][y + 1];
-			result = Math.max(result, sum);
-		}
-		if (y > 0 && x > 0 && x < n - 1) {
-			sum = map[x][y] + map[x - 1][y] + map[x + 1][y] + map[x][y - 1];
-			result = Math.max(result, sum);
-		}
-		if (y < m - 1 && x > 0 && x < n - 1) {
-			sum = map[x][y] + map[x - 1][y] + map[x + 1][y] + map[x][y + 1];
-			result = Math.max(result, sum);
-		}
-	}
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-	private static void dfs(int x, int y, int cnt) {
-		if (cnt == 4) {
-			int sum = 0;
-			for (int i = 0; i < 4; i++) {
-				sum += list.get(i);
-			}
-			result = Math.max(result, sum);
-			return;
-		}
-		if (x < 0 || y < 0 || x >= n || y >= m) {
-			return;
-		}
-		if(visited[x][y]) {
-			return;
-		}
-		list.add(map[x][y]);
-		visited[x][y] = true;
-		dfs(x + 1, y, cnt + 1);
-		dfs(x, y + 1, cnt + 1);
-		dfs(x, y - 1, cnt + 1);
-		list.remove(list.size() - 1);
-		visited[x][y] = false;
-	}
+        arr = new int[n][m];
+        visited = new boolean[n][m];
+
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < m; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                dfs(i, j, 1, 0);
+                getSpecial(i, j);
+            }
+        }
+
+        System.out.println(result);
+    }
+
+    private static void getSpecial(int x, int y) {
+        int sum = 0;
+        if (x > 0 && y > 0 && y < m - 1) {
+            sum = arr[x][y] + arr[x - 1][y] + arr[x][y - 1] + arr[x][y + 1];
+            result = Math.max(result, sum);
+        }
+        if (x < n - 1 && y > 0 && y < m - 1) {
+            sum = arr[x][y] + arr[x + 1][y] + arr[x][y - 1] + arr[x][y + 1];
+            result = Math.max(result, sum);
+        }
+        if (y > 0 && x > 0 && x < n - 1) {
+            sum = arr[x][y] + arr[x - 1][y] + arr[x + 1][y] + arr[x][y - 1];
+            result = Math.max(result, sum);
+        }
+        if (y < m - 1 && x > 0 && x < n - 1) {
+            sum = arr[x][y] + arr[x - 1][y] + arr[x + 1][y] + arr[x][y + 1];
+            result = Math.max(result, sum);
+        }
+    }
+
+    private static void dfs(int i, int j, int depth, int sum) {
+        if (i < 0 || j < 0 || i >= n || j >= m || visited[i][j]) {
+            return;
+        }
+
+        sum += arr[i][j];
+
+        if (depth == 4) {
+            result = Math.max(sum, result);
+            return;
+        }
+
+        visited[i][j] = true;
+        for (int d = 0; d < 4; d++) {
+            int nr = i + row[d];
+            int nc = j + col[d];
+            dfs(nr, nc, depth + 1, sum);
+        }
+        visited[i][j] = false;
+    }
 }
