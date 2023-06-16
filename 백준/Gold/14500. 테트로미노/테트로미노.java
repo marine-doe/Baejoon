@@ -71,7 +71,7 @@ public class Main {
         }
 
         visited[i][j] = true;
-        for (int d = 0; d < 4; d++) {
+        for (int d = 0; d < 3; d++) {
             int nr = i + row[d];
             int nc = j + col[d];
             dfs(nr, nc, depth + 1, sum);
