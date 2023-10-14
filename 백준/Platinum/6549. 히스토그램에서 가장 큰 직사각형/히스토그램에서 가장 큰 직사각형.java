@@ -1,18 +1,22 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while(true){
-            int n = sc.nextInt();
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            int n = Integer.parseInt(st.nextToken());
 
             if (n == 0) break;
 
             long[] histogram = new long[n];
 
-            for (int i = 0; i < n; i++) histogram[i] = sc.nextLong();
+            for (int i = 0; i < n; i++) histogram[i] = Long.parseLong(st.nextToken());
 
             Stack<Integer> stack = new Stack<>();
 
