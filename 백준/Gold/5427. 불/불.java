@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
@@ -29,14 +31,15 @@ public class Main {
 
     static final int INF = Integer.MAX_VALUE;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int tc = sc.nextInt();
+        int tc = Integer.parseInt(br.readLine());
 
         for (int t = 0; t < tc; t++) {
-            w = sc.nextInt();
-            h = sc.nextInt();
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            w = Integer.parseInt(st.nextToken());
+            h = Integer.parseInt(st.nextToken());
 
             map = new char[h][w];
             fires = new ArrayList<>();
@@ -46,7 +49,7 @@ public class Main {
             }
 
             for (int i = 0; i < h; i++) {
-                map[i] = sc.next().toCharArray();
+                map[i] = br.readLine().toCharArray();
             }
 
             for (int i = 0; i < h; i++) {
