@@ -40,7 +40,6 @@ public class Main {
             parent[i] = i;
         }
 
-        Arrays.sort(graph, (o1, o2) -> o2[2] - o1[2]);
         minKruskal();
 
         System.out.println(result);
@@ -48,7 +47,7 @@ public class Main {
 
     private static void minKruskal() {
         int tired = 0;
-        for (int i = 0; i < m; i++) {
+        for (int i = m; i >= 0; i--) {
             if (find(graph[i][0]) != find(graph[i][1])) {
                 tired += graph[i][2];
                 union(graph[i][0], graph[i][1]);
@@ -59,7 +58,7 @@ public class Main {
 
     private static void maxKruskal() {
         int tired = 0;
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < m + 1; i++) {
             if (find(graph[i][0]) != find(graph[i][1])) {
                 tired += graph[i][2];
                 union(graph[i][0], graph[i][1]);
