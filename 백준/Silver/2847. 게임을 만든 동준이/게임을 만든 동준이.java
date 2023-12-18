@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -8,17 +7,17 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        Stack<Integer> stack = new Stack<>();
+        int[] arr = new int[n];
 
         for (int i = 0; i < n; i++) {
-            stack.push(Integer.parseInt(br.readLine()));
+            arr[i] = Integer.parseInt(br.readLine());
         }
 
         int result = 0;
-        int max = stack.pop();
+        int max = arr[n - 1];
 
-        while (!stack.isEmpty()) {
-            int cur = stack.pop();
+        for (int i = n - 2; i >= 0; i--) {
+            int cur = arr[i];
 
             if (cur >= max) {
                 int diff = cur - max + 1;
