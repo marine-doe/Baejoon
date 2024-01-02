@@ -1,5 +1,5 @@
 class Solution {
-    public long solution(int n) {        
+    public int solution(int n) {        
         int[] fibo = new int[n + 1];
         
         fibo[0] = 0;
