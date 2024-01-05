@@ -9,38 +9,60 @@ public class Main {
 
         char[] balls = br.readLine().toCharArray();
 
-        int result = Math.min(red(balls), blue(balls));
+        int result = Math.min(red(n, balls), blue(n, balls));
 
         System.out.println(result);
     }
 
-    private static int red(char[] balls) {
-        int redSum = 0, result = 0;
+    private static int red(int n, char[] balls) {
+        int redSum = 0, result1 = 0;
 
         for (char ball : balls) {
             if (ball == 'R') {
                 redSum++;
             } else {
-                result += redSum;
+                result1 += redSum;
                 redSum = 0;
             }
         }
 
-        return result;
+        int blueSum = 0, result2 = 0;
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (balls[i] == 'B') {
+                blueSum++;
+            } else {
+                result2 += blueSum;
+                blueSum = 0;
+            }
+        }
+
+        return Math.min(result1, result2);
     }
 
-    private static int blue(char[] balls) {
-        int blueSum = 0, result = 0;
+    private static int blue(int n, char[] balls) {
+        int blueSum = 0, result1 = 0;
 
         for (char ball : balls) {
             if (ball == 'B') {
                 blueSum++;
             } else {
-                result += blueSum;
+                result1 += blueSum;
                 blueSum = 0;
             }
         }
 
-        return result;
+        int redSum = 0, result2 = 0;
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (balls[i] == 'R') {
+                redSum++;
+            } else {
+                result2 += redSum;
+                redSum = 0;
+            }
+        }
+
+        return Math.min(result1, result2);
     }
 }
