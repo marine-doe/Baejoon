@@ -23,7 +23,7 @@ public class Main {
 
         Arrays.sort(solution);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n - 2; i++) {
             twoPointers(i);
         }
 
@@ -39,18 +39,9 @@ public class Main {
     }
 
     private static void twoPointers(int idx) {
-        int l = 0, r = n - 1;
+        int l = idx + 1, r = n - 1;
 
         while (l < r) {
-            if (idx == l) {
-                l++;
-                continue;
-            }
-
-            if (idx == r) {
-                r--;
-                continue;
-            }
 
             long mix = solution[idx] + solution[l] + solution[r];
             long mixAbs = Math.abs(mix);
