@@ -28,8 +28,6 @@ public class Main {
             twoPointers(i);
         }
 
-        Arrays.sort(answers);
-
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < 3; i++) {
@@ -43,7 +41,6 @@ public class Main {
         int l = idx + 1, r = n - 1;
 
         while (l < r) {
-
             long mix = solution[idx] + solution[l] + solution[r];
             long mixAbs = Math.abs(mix);
 
@@ -54,13 +51,9 @@ public class Main {
                 min = mixAbs;
             }
 
-            if (mix > 0) {
-                r--;
-            } else if (mix < 0) {
-                l++;
-            } else {
-                return;
-            }
+            if (mix > 0) r--;
+            else if (mix < 0) l++;
+            else return;
         }
     }
 }
