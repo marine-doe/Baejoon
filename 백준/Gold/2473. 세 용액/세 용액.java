@@ -24,6 +24,7 @@ public class Main {
         Arrays.sort(solution);
 
         for (int i = 0; i < n - 2; i++) {
+            if (min == 0) break;
             twoPointers(i);
         }
 
