@@ -1,51 +1,42 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int n = Integer.parseInt(br.readLine());
-        int[][] minmap = new int[n][3];
-        int[][] maxmap = new int[n][3];
-
+        int[][] map = new int[n][3];
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for (int j = 0; j < 3; j++) {
-                minmap[i][j] = Integer.parseInt(st.nextToken());
-                maxmap[i][j] = minmap[i][j];
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        for (int i = 1; i < n; i++) {
+        int[][] maxMemo = new int[2][3];
+        int[][] minMemo = new int[2][3];
+
+        for (int i = 0; i < n; i++) {
+            maxMemo[1][0] = map[i][0] + Math.max(maxMemo[0][0], maxMemo[0][1]);
+            maxMemo[1][1] = map[i][1] + Math.max(maxMemo[0][0], Math.max(maxMemo[0][1], maxMemo[0][2]));
+            maxMemo[1][2] = map[i][2] + Math.max(maxMemo[0][1], maxMemo[0][2]);
+
+            minMemo[1][0] = map[i][0] + Math.min(minMemo[0][0], minMemo[0][1]);
+            minMemo[1][1] = map[i][1] + Math.min(minMemo[0][0], Math.min(minMemo[0][1], minMemo[0][2]));
+            minMemo[1][2] = map[i][2] + Math.min(minMemo[0][1], minMemo[0][2]);
+
             for (int j = 0; j < 3; j++) {
-                if (j == 0) {
-                    minmap[i][j] += Math.min(minmap[i - 1][j], minmap[i - 1][j + 1]);
-                } else if (j == 1) {
-                    minmap[i][j] += Math.min(Math.min(minmap[i - 1][j - 1], minmap[i - 1][j]), minmap[i - 1][j + 1]);
-                } else {
-                    minmap[i][j] += Math.min(minmap[i - 1][j - 1], minmap[i - 1][j]);
-                }
+                maxMemo[0][j] = maxMemo[1][j];
+                minMemo[0][j] = minMemo[1][j];
             }
         }
 
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (j == 0) {
-                    maxmap[i][j] += Math.max(maxmap[i - 1][j], maxmap[i - 1][j + 1]);
-                } else if (j == 1) {
-                    maxmap[i][j] += Math.max(Math.max(maxmap[i - 1][j - 1], maxmap[i - 1][j]), maxmap[i - 1][j + 1]);
-                } else {
-                    maxmap[i][j] += Math.max(maxmap[i - 1][j - 1], maxmap[i - 1][j]);
-                }
-            }
-        }
+        StringBuilder sb = new StringBuilder();
 
-        int min = Math.min(Math.min(minmap[n - 1][0], minmap[n - 1][1]), minmap[n - 1][2]);
-        int max = Math.max(Math.max(maxmap[n - 1][0], maxmap[n - 1][1]), maxmap[n - 1][2]);
-
-        System.out.println(max + " " + min);
+        sb.append(Math.max(maxMemo[1][0], Math.max(maxMemo[1][1], maxMemo[1][2])));
+        sb.append(" ");
+        sb.append(Math.min(minMemo[1][0], Math.min(minMemo[1][1], minMemo[1][2])));
+        System.out.println(sb);
     }
 }
