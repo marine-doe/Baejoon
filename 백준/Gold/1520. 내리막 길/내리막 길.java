@@ -1,49 +1,49 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	static boolean[][] visited;
-	static int[][] map, way;
-	static int[] row = { 1, -1, 0, 0 }, col = { 0, 0, 1, -1 };
-	static int n, m, result;
+    static boolean[][] visited;
+    static int[][] map, dp;
+    static int[] row = {0, 0, 1, -1}, col = {1, -1, 0, 0};
+    static int n, m;
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		n = sc.nextInt();
-		m = sc.nextInt();
-		map = new int[n][m];
-		way = new int[n][m];
-		visited = new boolean[n][m];
-		way[0][0] = 1;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				map[i][j] = sc.nextInt();
-			}
-		}
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-		result = findWay(n - 1, m - 1);
+        visited = new boolean[n][m];
+        map = new int[n][m];
+        dp = new int[n][m];
 
-		System.out.println(result);
-	}
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < m; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
 
-	private static int findWay(int r, int c) {
-		if(visited[r][c]) {
-			return way[r][c];
-		}else {
-			visited[r][c] = true;
-			
-			for (int d = 0; d < 4; d++) {
-				int nr = r + row[d];
-				int nc = c + col[d];
-				if (nr >= 0 && nr < n && nc < m && nc >= 0) {
-					if(map[nr][nc] > map[r][c]) {
-						way[r][c] += findWay(nr, nc);
-					}
-				}
-			}
-			
-			return way[r][c];
-		}
-	}
+        dp[0][0] = 1;
+        System.out.println(dfs(n - 1, m - 1));
+    }
 
+    private static int dfs(int x, int y) {
+        if (visited[x][y]) return dp[x][y];
+
+        visited[x][y] = true;
+
+        for (int d = 0; d < 4; d++) {
+            int dx = x + row[d];
+            int dy = y + col[d];
+
+            if (dx >= 0 && dx < n && dy >= 0 && dy < m && map[dx][dy] > map[x][y]) {
+                dp[x][y] += dfs(dx, dy);
+            }
+        }
+
+        return dp[x][y];
+    }
 }
