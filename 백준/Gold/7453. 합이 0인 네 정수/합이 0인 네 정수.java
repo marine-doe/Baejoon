@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static int[] CD;
+    static int[] AB, CD;
     static int n, N;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,7 +23,7 @@ public class Main {
             }
         }
 
-        int[] AB = new int[N];
+        AB = new int[N];
         CD = new int[N];
 
         int idx = 0;
@@ -34,48 +34,52 @@ public class Main {
             }
         }
 
+        Arrays.sort(AB);
         Arrays.sort(CD);
 
         long answer = 0L;
 
-        for (int i = 0; i < N; i++) {
-            int cur = AB[i];
+        int left = 0, right = N - 1;
 
-            answer += (upperBound(-cur) - lowerBound(-cur));
+        while (left < N && right >= 0) {
+            if (AB[left] + CD[right] < 0) left++;
+            else if (AB[left] + CD[right] > 0) right--;
+            else {
+                int target = AB[left];
+                long leftCnt = upperBound(target) - left;
+                long rightCnt = right - lowerBound(-target);
+                answer += leftCnt * rightCnt;
+                left += leftCnt;
+                right -= rightCnt;
+            }
         }
 
         System.out.println(answer);
     }
 
-    private static long lowerBound(int target) {
-        int left = 0, right = N - 1;
+    private static int lowerBound(int target) {
+        int lo = -1, hi = N;
 
-        while (left <= right) {
-            int mid = (left + right) / 2;
+        while (hi - lo > 1) {
+            int mid = (hi + lo) / 2;
 
-            if (CD[mid] >= target) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
+            if (CD[mid] < target) lo = mid;
+            else hi = mid;
         }
 
-        return left;
+        return lo;
     }
 
-    private static long upperBound(int target) {
-        int left = 0, right = N;
+    private static int upperBound(int target) {
+        int lo = -1, hi = N;
 
-        while (left < right) {
-            int mid = (left + right) / 2;
+        while (hi - lo > 1) {
+            int mid = (hi + lo) / 2;
 
-            if (CD[mid] > target) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
+            if (AB[mid] > target) hi = mid;
+            else lo = mid;
         }
 
-        return right;
+        return hi;
     }
 }
