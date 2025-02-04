@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -9,45 +8,61 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
-        int[] map = new int[n];
 
-        int sum = 0;
-        int max = 0;
+        int[] arr = new int[n];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            map[i] = Integer.parseInt(st.nextToken());
 
-            sum += map[i];
-            max = Math.max(max, map[i]);
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int m = Integer.parseInt(br.readLine());
+        Arrays.sort(arr);
 
-        if (m < sum) {
-            Arrays.sort(map);
+        int budget = Integer.parseInt(br.readLine()); // 배정된 예산
+        int rest = budget;
+        int m = n;
+        int best = budget / m;
+        int pre = 0;
 
-            int avg = m / n;
-            int rest = m;
-            int idx = 0;
+        while (rest > 0 && best < arr[n - 1]) {
+            int after = lowerBound(arr, best, pre);
 
-            while(true) {
-                for (; idx < n; idx++) {
-                    if (map[idx] > avg) break;
-                    else rest -= map[idx];
-                }
+            if (after == pre) break;
 
-                if (idx == n) break;
+            for (int i = pre; i < after; i++) {
+                rest -= arr[i];
+            }
 
-                avg = rest / (n - idx);
+            m = n - after;
 
-                if (avg <= map[idx]) {
-                    max = avg;
-                    break;
-                }
+            best = rest / m;
+
+            pre = after;
+        }
+
+        if (best > arr[n - 1]) {
+            System.out.println(arr[n - 1]);
+        } else {
+            System.out.println(best);
+        }
+
+    }
+
+    private static int lowerBound(int[] arr, int target, int start) {
+        int lo = start - 1;
+        int hi = arr.length;
+
+        while (hi - lo > 1) {
+            int mid = (hi + lo) / 2;
+
+            if (arr[mid] < target) {
+                lo = mid;
+            } else {
+                hi = mid;
             }
         }
 
-        System.out.println(max);
+        return hi;
     }
 }
